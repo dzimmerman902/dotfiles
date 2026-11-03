@@ -1,0 +1,215 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    // Only active in a full editor, in normal mode, with no menu open.
+    "context": "Editor && mode == full && vim_mode == normal && !menu",
+    "bindings": {
+      // Explorer: focus it, or reveal the current file.
+      "space e": "project_panel::ToggleFocus",
+      "space shift-e": "pane::RevealInProjectPanel",
+
+      // File finder.
+      "space space": "file_finder::Toggle",
+
+      // Project search. Both open the same search interface;
+      // Space S W is an approximation of Telescope's grep_string.
+      "space s g": "pane::DeploySearch",
+
+      // Project diagnostics.
+      "space s d": "diagnostics::Deploy",
+
+      // Search keybindings or available commands.
+      "space s k": "zed::OpenKeymap",
+      "space s s": "command_palette::Toggle",
+
+      // Format the file; replaces your custom Space F file finder.
+      "space f": "editor::Format",
+
+      // Reveal the current file in Finder.
+      "space r f": "editor::RevealInFileManager",
+
+      // Create splits and reset their sizes.
+      "space s v": "pane::SplitRight",
+      "space s h": "pane::SplitDown",
+      "space s e": "vim::ResetPaneSizes",
+
+      // Navigate between editor panes.
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+
+      // Switch Zed tabs, approximating Neovim buffer navigation.
+      // Overrides Vim H/L: top/bottom of the visible screen.
+      "shift-h": "pane::ActivatePreviousItem",
+      "shift-l": "pane::ActivateNextItem",
+
+      // Toggle wrapping.
+      "space l w": "editor::ToggleSoftWrap",
+
+      // LSP mappings matching your Neovim configuration.
+      // gi overrides "insert at previous insertion position".
+      "g i": "editor::GoToImplementation",
+      "g o": "editor::GoToTypeDefinition",
+
+      // gr replaces/prefix-conflicts with Zed's gr command family.
+      "g r": "editor::FindAllReferences",
+
+      // gs replaces Zed's current-file symbol picker.
+      "g s": "editor::ShowSignatureHelp",
+
+      "space c r": "editor::Rename",
+
+      // Hover includes documentation and applicable diagnostics.
+      "space o f": "editor::Hover",
+      "space o l": "diagnostics::Deploy",
+
+      // Approximate Snacks word-reference navigation.
+      // Overrides Vim's code-section navigation.
+      "] ]": "vim::GoToNextReference",
+      "[ [": "vim::GoToPreviousReference",
+
+      // Show/hide the selected Git diff hunk.
+      "space h p": "editor::ToggleSelectedDiffHunks",
+
+      // Show blame for the current line.
+      "space h b": "editor::BlameHover",
+
+      // Toggle staging for the selected change.
+      // Unlike Gitsigns stage_hunk, this also unstages staged changes.
+      "space h s": "git::ToggleStaged",
+
+      // Restore the selected Git change: discards that change.
+      "space h r": "git::Restore",
+
+      // Open Git blame view; differs from Gitsigns inline-blame toggle.
+      "space g b": "git::Blame",
+
+      // Open/focus Zed's Git panel instead of Telescope git_status.
+      "space g s": "git_panel::ToggleFocus",
+
+      // Delete one character into the black-hole register.
+      // Keeps the deleted character out of your yank register.
+      "x": ["workspace::SendKeystrokes", "\" _ x"],
+    },
+  },
+  {
+    // Insert-mode mappings do not apply in normal mode.
+    "context": "Editor && mode == full && vim_mode == insert",
+    "bindings": {
+      // Type either sequence to leave insert mode.
+      // This means typing literal "jk" or "kj" quickly is intercepted.
+      "j k": "vim::NormalBefore",
+      "k j": "vim::NormalBefore",
+
+      // Move the cursor while staying in insert mode.
+      // Overrides existing Ctrl+H/J/K/L editor behavior.
+      "ctrl-h": "editor::MoveLeft",
+      "ctrl-j": "editor::MoveDown",
+      "ctrl-k": "editor::MoveUp",
+      "ctrl-l": "editor::MoveRight",
+
+      // Request completions.
+      "ctrl-space": "editor::ShowCompletions",
+    },
+  },
+  {
+    "context": "Editor && mode == full && vim_mode == visual && !menu",
+    "bindings": {
+      // Move selected lines. Unlike your Neovim mapping,
+      // these actions do not explicitly reindent afterward.
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp",
+
+      // Indent/outdent using editor actions to retain the selection.
+      "<": "editor::Outdent",
+      ">": "editor::Indent",
+
+      // Paste without replacing the clipboard with the removed text.
+      "p": ["vim::Paste", { "preserve_clipboard": true }],
+
+      // Format using Zed's configured formatter.
+      "space f": "editor::Format",
+    },
+  },
+  {
+    // Shared editor shortcuts, excluding Vim's character-waiting mode.
+    "context": "Editor && mode == full && vim_mode != waiting",
+    "bindings": {
+      // Save without switching modes.
+      "ctrl-s": "workspace::Save",
+    },
+  },
+  {
+    // Only active while navigating the explorer.
+    // Disabled while entering a filename or renaming an entry.
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      // Return focus to the editor.
+      "space e": "project_panel::ToggleFocus",
+      "escape": "project_panel::ToggleFocus",
+
+      // Open the file finder from the explorer.
+      "space space": "file_finder::Toggle",
+      "space s f": "file_finder::Toggle",
+
+      // Navigate away from the explorer.
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+
+      // Vim-mode explorer defaults already provide:
+      // j/k: move, h/l: collapse/expand, Enter: open,
+      // gg/G: first/last entry, -: parent directory.
+    },
+  },
+  {
+    // Allow navigation and opening files when the pane has no editor.
+    "context": "EmptyPane",
+    "bindings": {
+      "space e": "project_panel::ToggleFocus",
+      "space space": "file_finder::Toggle",
+      "space s f": "file_finder::Toggle",
+
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      // These shortcuts go to Zed instead of the terminal program.
+      // For example, Ctrl+L will no longer clear the terminal screen.
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    // Only active while the insert-mode completion menu is visible.
+    "context": "Editor && vim_mode == insert && showing_completions",
+    "bindings": {
+      "ctrl-y": "editor::ConfirmCompletion",
+      "ctrl-n": "menu::SelectNext",
+      "ctrl-p": "menu::SelectPrevious",
+
+      // Dismiss the completion menu.
+      "ctrl-e": "editor::Cancel",
+
+      // Navigate suggestions rather than accepting with Tab.
+      // Zed's snippet bindings still apply when this menu is closed.
+      "tab": "menu::SelectNext",
+      "shift-tab": "menu::SelectPrevious",
+    },
+  },
+]
