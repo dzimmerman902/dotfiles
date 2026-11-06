@@ -7,9 +7,14 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "restore_on_startup": "last_session",
   "vim_mode": true,
+  "seed_search_query_from_cursor": "never",
   "vim": {
     "toggle_relative_line_numbers": true
+  },
+  "agent": {
+    "notify_when_agent_waiting": "never"
   },
   "agent_servers": {
     "codex-acp": {

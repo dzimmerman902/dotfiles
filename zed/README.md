@@ -22,10 +22,12 @@ Recorded: 2026-11-03. Based on the current local `~/.config/zed/keymap.json` and
 
 - **Browse files:** Escape to normal mode → `Space e` → `j`/`k` to select → `h`/`l` to collapse/expand → Enter to open. Escape in the explorer returns focus to the editor.
 - **Find a file by name:** `Space Space`, type the filename, then Enter.
-- **Search project text:** `Space s g`.
+- **Search project text:** `Space s g` opens project-wide search. `seed_search_query_from_cursor: "never"` disables prefilling from the selection or cursor word for project and buffer searches. Existing search queries may be retained.
+- **Clear search highlights:** in editor normal mode, `Space n h` dismisses the buffer search bar and removes its match highlights, like Neovim’s `:nohlsearch`. The query is retained for later searches.
 - **Move through code:** `gd` to a definition, then Ctrl+O to go back; `gi` for an implementation and `gr` for references.
 - **Edit a selection:** enter visual mode, select text, then `J`/`K` to move lines or `<`/`>` to change indentation.
-- **Open chat:** Cmd+Shift+/ (Cmd+?) uses the default `agent::ToggleFocus` action. `Space a f` is not currently configured.
+- **Open chat:** Cmd+Shift+/ (Cmd+?) uses `agent::ToggleFocus`. The custom `Space a c` mapping has been removed.
+- **Move focus horizontally:** Ctrl+H / Ctrl+L move left / right across panes and docks, including the AI input and editor insert mode. From the Projects/threads sidebar, Ctrl+L enters AI chat when its left dock is open, or the editor when it is closed. From AI chat, Ctrl+L uses `workspace::FocusCenterPane` to return to the active editor. `Space a p`, `Space a s`, and `Space a c` are not configured.
 
 ## Custom bindings
 
@@ -41,6 +43,7 @@ Context: `Editor && mode == full && vim_mode == normal && !menu`
 | `Space E`     | Reveal the current file in the explorer.                                                   | `pane::RevealInProjectPanel`      |
 | `Space Space` | Open the file finder; type part of a filename.                                             | `file_finder::Toggle`             |
 | `Space s g`   | Open project-wide text search.                                                             | `pane::DeploySearch`              |
+| `Space n h`   | Dismiss the buffer search bar and clear its match highlights.                              | `buffer_search::Dismiss`          |
 | `Space s d`   | Open project diagnostics.                                                                  | `diagnostics::Deploy`             |
 | `Space s k`   | Open the keybinding editor.                                                                | `zed::OpenKeymap`                 |
 | `Space s s`   | Open the command palette to find and run actions.                                          | `command_palette::Toggle`         |
@@ -70,7 +73,7 @@ Context: `Editor && mode == full && vim_mode == normal && !menu`
 | `Space h s`   | Toggle staging for the applicable selected change; also unstages staged changes.           | `git::ToggleStaged`               |
 | `Space h r`   | Restore the applicable selected Git change, discarding that change.                        | `git::Restore`                    |
 | `Space g b`   | Open the Git blame view.                                                                   | `git::Blame`                      |
-| `Space g s`   | Toggle focus to/from the Git panel.                                                        | `git_panel::ToggleFocus`          |
+| `Space g g`   | Toggle focus to/from the Git panel.                                                        | `git_panel::ToggleFocus`          |
 | `x`           | Send `"_x`: delete a character into the black-hole register, preserving the yank register. | `workspace::SendKeystrokes`       |
 
 ### Insert mode: editor
@@ -79,15 +82,15 @@ Applies in a full editor in insert mode. Typing `jk` or `kj` as a chord exits in
 
 Context: `Editor && mode == full && vim_mode == insert`
 
-| Shortcut     | Effect                                                | Zed action                |
-| ------------ | ----------------------------------------------------- | ------------------------- |
-| `j k`        | Leave insert mode, like Escape.                       | `vim::NormalBefore`       |
-| `k j`        | Leave insert mode, like Escape.                       | `vim::NormalBefore`       |
-| `Ctrl+h`     | Move the cursor left while remaining in insert mode.  | `editor::MoveLeft`        |
-| `Ctrl+j`     | Move the cursor down while remaining in insert mode.  | `editor::MoveDown`        |
-| `Ctrl+k`     | Move the cursor up while remaining in insert mode.    | `editor::MoveUp`          |
-| `Ctrl+l`     | Move the cursor right while remaining in insert mode. | `editor::MoveRight`       |
-| `Ctrl+Space` | Request the completion menu.                          | `editor::ShowCompletions` |
+| Shortcut     | Effect                                               | Zed action                     |
+| ------------ | ---------------------------------------------------- | ------------------------------ |
+| `j k`        | Leave insert mode, like Escape.                      | `vim::NormalBefore`            |
+| `k j`        | Leave insert mode, like Escape.                      | `vim::NormalBefore`            |
+| `Ctrl+h`     | Focus the pane or dock to the left.                  | `workspace::ActivatePaneLeft`  |
+| `Ctrl+j`     | Move the cursor down while remaining in insert mode. | `editor::MoveDown`             |
+| `Ctrl+k`     | Move the cursor up while remaining in insert mode.   | `editor::MoveUp`               |
+| `Ctrl+l`     | Focus the pane or dock to the right.                 | `workspace::ActivatePaneRight` |
+| `Ctrl+Space` | Request the completion menu.                         | `editor::ShowCompletions`      |
 
 ### Visual mode: editor
 
@@ -120,6 +123,8 @@ Applies while navigating the explorer, not while editing a filename. Space E or 
 
 Context: `ProjectPanel && not_editing`
 
+Press **c** to collapse the selected directory. When a file is selected, this collapses its nearest expanded containing directory. Press **Shift+c** to collapse all directories in the explorer.
+
 | Shortcut      | Effect                                                        | Zed action                     |
 | ------------- | ------------------------------------------------------------- | ------------------------------ |
 | `Space e`     | Toggle focus between the explorer (Project Panel) and editor. | `project_panel::ToggleFocus`   |
@@ -130,6 +135,32 @@ Context: `ProjectPanel && not_editing`
 | `Ctrl+j`      | Focus the pane below.                                         | `workspace::ActivatePaneDown`  |
 | `Ctrl+k`      | Focus the pane above.                                         | `workspace::ActivatePaneUp`    |
 | `Ctrl+l`      | Focus the pane to the right.                                  | `workspace::ActivatePaneRight` |
+
+### Git panel
+
+Open with **Space g g** in editor normal mode. If focus lands in the commit
+message, press **Escape** or **Tab** to focus the changed-file list. Press **i**
+or **Tab** from the list to return to the message. Letters below apply only to
+the Changes list, so they remain available for typing in the message.
+
+| Shortcut | Effect |
+| --- | --- |
+| `j` / `k` | Select the next / previous changed file and show its diff. |
+| `g g` / `Shift+g` | Select the first / last changed file. |
+| `h` / `l` | Collapse / expand a tree entry. |
+| `Space` or `x` | Toggle staging for the selected entry. |
+| `s` / `u` | Stage / unstage the selected file. |
+| `Shift+s` / `Shift+u` | Stage / unstage all changes. |
+| `b` | Open the branch picker. Type to filter, use arrows, Enter to switch, Escape to cancel. |
+| `r` | Open the repository picker for this multi-repository workspace. |
+| `f` | Fetch from the remote for the selected repository. |
+| `d` | Open the project diff. |
+| `Enter` | Confirm/open the selected entry. |
+| `i` or `Tab` | Focus the commit-message input. |
+| `Escape` or `Tab` in commit input | Focus the changed-file list. |
+| `Cmd+Enter` | Commit using Zed's existing binding. |
+
+Branch switches, fetching, staging and commits run only when you invoke them.
 
 ### Empty editor pane
 
@@ -229,6 +260,8 @@ Centered scrolling/search from Neovim was not configured in Zed. F4 and F7 have 
 ## Maintaining this reference
 
 - Run `zed: open keymap file` to inspect the live `~/.config/zed/keymap.json`.
+- If edits to the dotfiles target do not reload through the symlink, run `touch -h ~/.config/zed/keymap.json` to refresh it.
+- Ctrl+L was checked interactively from AI chat and from the Projects sidebar with the AI dock both open and closed.
 - Run `zed: open keymap` to browse actions and assigned shortcuts.
 - Run `dev: open key context view` to diagnose which context is active when a shortcut behaves unexpectedly.
 - When changing a mapping, update the corresponding row here. This Markdown file is a reference, not a configuration loaded by Zed.

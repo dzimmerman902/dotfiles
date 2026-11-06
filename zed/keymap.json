@@ -17,9 +17,11 @@
       // File finder.
       "space space": "file_finder::Toggle",
 
-      // Project search. Both open the same search interface;
-      // Space S W is an approximation of Telescope's grep_string.
+      // Open project-wide text search.
       "space s g": "pane::DeploySearch",
+
+      // Clear search highlights and dismiss the search bar (like :nohlsearch).
+      "space n h": "buffer_search::Dismiss",
 
       // Project diagnostics.
       "space s d": "diagnostics::Deploy",
@@ -92,7 +94,7 @@
       "space g b": "git::Blame",
 
       // Open/focus Zed's Git panel instead of Telescope git_status.
-      "space g s": "git_panel::ToggleFocus",
+      "space g g": "git_panel::ToggleFocus",
 
       // Delete one character into the black-hole register.
       // Keeps the deleted character out of your yank register.
@@ -108,12 +110,9 @@
       "j k": "vim::NormalBefore",
       "k j": "vim::NormalBefore",
 
-      // Move the cursor while staying in insert mode.
-      // Overrides existing Ctrl+H/J/K/L editor behavior.
-      "ctrl-h": "editor::MoveLeft",
+      // Move the cursor vertically while staying in insert mode.
       "ctrl-j": "editor::MoveDown",
       "ctrl-k": "editor::MoveUp",
-      "ctrl-l": "editor::MoveRight",
 
       // Request completions.
       "ctrl-space": "editor::ShowCompletions",
@@ -151,6 +150,10 @@
     // Disabled while entering a filename or renaming an entry.
     "context": "ProjectPanel && not_editing",
     "bindings": {
+      // Collapse the current directory, or the entire explorer tree.
+      "c": "project_panel::CollapseSelectedEntry",
+      "shift-c": "project_panel::CollapseAllEntries",
+
       // Return focus to the editor.
       "space e": "project_panel::ToggleFocus",
       "escape": "project_panel::ToggleFocus",
@@ -210,6 +213,56 @@
       // Zed's snippet bindings still apply when this menu is closed.
       "tab": "menu::SelectNext",
       "shift-tab": "menu::SelectPrevious",
+    },
+  },
+  {
+    // Git file-list commands never intercept commit-message typing.
+    "context": "GitPanel && ChangesList && !GitBranchSelector && !GitRepositorySelector",
+    "bindings": {
+      "j": "git_panel::NextEntry",
+      "k": "git_panel::PreviousEntry",
+      "g g": "git_panel::FirstEntry",
+      "shift-g": "git_panel::LastEntry",
+      "h": "git_panel::CollapseSelectedEntry",
+      "l": "git_panel::ExpandSelectedEntry",
+      "space": "git::ToggleStaged",
+      "x": "git::ToggleStaged",
+      "s": "git::StageFile",
+      "u": "git::UnstageFile",
+      "shift-s": "git::StageAll",
+      "shift-u": "git::UnstageAll",
+      "b": "git::Branch",
+      "r": "git::SelectRepo",
+      "f": "git::Fetch",
+      "d": "git::Diff",
+      "enter": "menu::Confirm",
+      "i": "git_panel::FocusEditor",
+      "tab": "git_panel::FocusEditor",
+    },
+  },
+  {
+    // Leave the commit input without submitting or changing its text.
+    "context": "GitPanel && CommitEditor > Editor",
+    "bindings": {
+      "escape": "git_panel::FocusChanges",
+      "tab": "git_panel::FocusChanges",
+      "shift-tab": "git_panel::FocusChanges",
+    },
+  },
+  {
+    // Apply at the focused control, except for the AI-specific return below.
+    "context": "!AgentPanel",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+    },
+  },
+  {
+    // Return directly to the active editor from AI chat, including its input.
+    "context": "AgentPanel > Editor || AgentPanel",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::FocusCenterPane",
     },
   },
 ]
