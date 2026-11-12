@@ -7,6 +7,51 @@
 // from the command palette.
 [
   {
+    // Resize the focused split or dock, including chat input.
+    // Left/Up grow; Right/Down shrink. Docks resize along their available axis.
+    "bindings": {
+      "ctrl-right": "vim::ResizePaneLeft",
+      "ctrl-left": "vim::ResizePaneRight",
+      "ctrl-up": "vim::ResizePaneUp",
+      "ctrl-down": "vim::ResizePaneDown",
+    },
+  },
+  {
+    // Resize editor splits horizontally; vertical keys adjust space around docks.
+    "context": "Editor && mode == full && !Dock",
+    "bindings": {
+      "ctrl-right": "vim::ResizePaneRight",
+      "ctrl-left": "vim::ResizePaneLeft",
+      "ctrl-up": ["workspace::DecreaseOpenDocksSize", { "px": 24 }],
+      "ctrl-down": ["workspace::IncreaseOpenDocksSize", { "px": 24 }],
+    },
+  },
+  {
+    // With a panel on the right, move the shared border in the arrow's direction.
+    // Focus that panel briefly to resize it, then return to the coding editor.
+    "context": "right_dock > Editor && mode == full && !Dock",
+    "bindings": {
+      "ctrl-right": ["action::Sequence", [
+        "workspace::ActivatePaneRight",
+        ["workspace::DecreaseActiveDockSize", { "px": 24 }],
+        "workspace::FocusCenterPane",
+      ]],
+      "ctrl-left": ["action::Sequence", [
+        "workspace::ActivatePaneRight",
+        ["workspace::IncreaseActiveDockSize", { "px": 24 }],
+        "workspace::FocusCenterPane",
+      ]],
+    },
+  },
+  {
+    // Keep the AI chat's original horizontal resize directions, including its input.
+    "context": "AgentPanel > Editor || AgentPanel",
+    "bindings": {
+      "ctrl-right": "vim::ResizePaneRight",
+      "ctrl-left": "vim::ResizePaneLeft",
+    },
+  },
+  {
     // Only active in a full editor, in normal mode, with no menu open.
     "context": "Editor && mode == full && vim_mode == normal && !menu",
     "bindings": {

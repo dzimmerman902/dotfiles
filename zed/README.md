@@ -27,9 +27,29 @@ Recorded: 2026-11-03. Based on the current local `~/.config/zed/keymap.json` and
 - **Move through code:** `gd` to a definition, then Ctrl+O to go back; `gi` for an implementation and `gr` for references.
 - **Edit a selection:** enter visual mode, select text, then `J`/`K` to move lines or `<`/`>` to change indentation.
 - **Open chat:** Cmd+Shift+/ (Cmd+?) uses `agent::ToggleFocus`. The custom `Space a c` mapping has been removed.
+- **Compact chat cards:** `agent.expand_terminal_card: false` collapses terminal output, and `agent.expand_edit_card: false` collapses edit previews. Terminal commands themselves, including full multiline scripts, can still appear in collapsed cards; ACP transcript/code blocks can also remain expanded. These settings do not hide those scripts. See [Zed's discussion of collapsed cards still showing full commands](https://github.com/zed-industries/zed/discussions/62385).
 - **Move focus horizontally:** Ctrl+H / Ctrl+L move left / right across panes and docks, including the AI input and editor insert mode. From the Projects/threads sidebar, Ctrl+L enters AI chat when its left dock is open, or the editor when it is closed. From AI chat, Ctrl+L uses `workspace::FocusCenterPane` to return to the active editor. `Space a p`, `Space a s`, and `Space a c` are not configured.
 
 ## Custom bindings
+
+### Resize the focused area: all modes
+
+Focus the editor split, project sidebar, chat, terminal, or another dock panel, then hold Control and press an arrow. These bindings also apply while typing in an editor or chat input.
+
+| Shortcut | Effect | Zed action |
+| -------- | ------ | ---------- |
+| `Ctrl+Right` in the center editor with a right panel | Move the shared right border right: grow the coding area and shrink the panel by 24 pixels, then return focus to code. | `action::Sequence` → `workspace::DecreaseActiveDockSize` |
+| `Ctrl+Left` in the center editor with a right panel | Move the shared right border left: shrink the coding area and grow the panel by 24 pixels, then return focus to code. | `action::Sequence` → `workspace::IncreaseActiveDockSize` |
+| `Ctrl+Right` / `Ctrl+Left` in the center editor without a right dock | Grow / shrink an editor split horizontally. | `vim::ResizePaneRight` / `vim::ResizePaneLeft` |
+| `Ctrl+Up` / `Ctrl+Down` in the center editor | Shrink / grow all open docks by 24 pixels. | `workspace::DecreaseOpenDocksSize` / `workspace::IncreaseOpenDocksSize` |
+| `Ctrl+Left` / `Ctrl+Up` in a dock | Grow the focused dock. | `vim::ResizePaneRight` / `vim::ResizePaneUp` |
+| `Ctrl+Right` / `Ctrl+Down` in a dock | Shrink the focused dock. | `vim::ResizePaneLeft` / `vim::ResizePaneDown` |
+| `Ctrl+Right` in AI chat (including its input) | Grow the chat panel; preserves its original direction. | `vim::ResizePaneRight` |
+| `Ctrl+Left` in AI chat (including its input) | Shrink the chat panel; preserves its original direction. | `vim::ResizePaneLeft` |
+
+Side docks change width; the bottom dock changes height. Horizontal editor shortcuts target the adjacent panel to the right and are intended for a single center editor beside that panel. Vertical editor shortcuts change all visible docks together. `Space s e` still equalizes editor splits. If no docks or editor splits are open, the center editor already fills the available area.
+
+These shortcuts replace Zed's usual Ctrl+Arrow behavior. If macOS intercepts them for Mission Control or switching desktops, disable those shortcuts in System Settings → Keyboard → Keyboard Shortcuts → Mission Control.
 
 ### Normal mode: editor
 
@@ -253,7 +273,7 @@ References: [Vim keymap](https://github.com/zed-industries/zed/blob/main/assets/
 
 ## Earlier suggestions absent from the current custom keymap
 
-These were not carried into the active custom mappings: pane resizing with Ctrl+Arrow; close-tab/window and new-tab leader shortcuts; Ctrl+backslash for the terminal dock; custom debugger bindings; custom text-object bindings; Space S W; Space S F in the editor; and Space A F for chat. Their absence does not disable Zed’s built-in shortcuts for those features.
+These were not carried into the active custom mappings: close-tab/window and new-tab leader shortcuts; Ctrl+backslash for the terminal dock; custom debugger bindings; custom text-object bindings; Space S W; Space S F in the editor; and Space A F for chat. Their absence does not disable Zed’s built-in shortcuts for those features.
 
 Centered scrolling/search from Neovim was not configured in Zed. F4 and F7 have no custom overrides in the current file.
 

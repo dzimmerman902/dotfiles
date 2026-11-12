@@ -14,7 +14,9 @@
     "toggle_relative_line_numbers": true
   },
   "agent": {
-    "notify_when_agent_waiting": "never"
+    "notify_when_agent_waiting": "never",
+    "expand_terminal_card": false,
+    "expand_edit_card": false
   },
   "agent_servers": {
     "codex-acp": {
