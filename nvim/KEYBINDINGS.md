@@ -1,0 +1,283 @@
+# Neovim Keybindings Reference
+
+> **Leader key:** `Space`
+
+## General
+
+| Key          | Mode   | Description                                    |
+| ------------ | ------ | ---------------------------------------------- |
+| `<leader>nh` | Normal | Clear search highlights                        |
+| `x`          | Normal | Delete character (without copying to register) |
+| `<leader>qq` | Normal | Force quit all                                 |
+| `<leader>rf` | Normal | Reveal file in Finder (macOS)                  |
+
+## Window Management
+
+| Key          | Mode   | Description                 |
+| ------------ | ------ | --------------------------- |
+| `<leader>sv` | Normal | Split window vertically     |
+| `<leader>sh` | Normal | Split window horizontally   |
+| `<leader>se` | Normal | Make splits equal size      |
+| `<leader>sx` | Normal | Close current split         |
+| `<leader>wd` | Normal | Delete/close current window |
+| `Ctrl+h`     | Normal | Move to left window         |
+| `Ctrl+j`     | Normal | Move to bottom window       |
+| `Ctrl+k`     | Normal | Move to top window          |
+| `Ctrl+l`     | Normal | Move to right window        |
+| `Ctrl+Up`    | Normal | Increase window height      |
+| `Ctrl+Down`  | Normal | Decrease window height      |
+| `Ctrl+Left`  | Normal | Decrease window width       |
+| `Ctrl+Right` | Normal | Increase window width       |
+
+## Tab Management
+
+| Key          | Mode   | Description                    |
+| ------------ | ------ | ------------------------------ |
+| `<leader>to` | Normal | Open new tab                   |
+| `<leader>tx` | Normal | Close current tab              |
+| `<leader>tn` | Normal | Go to next tab                 |
+| `<leader>tp` | Normal | Go to previous tab             |
+| `<leader>tF` | Normal | Open current buffer in new tab |
+
+## Buffer Management
+
+| Key          | Mode   | Description               |
+| ------------ | ------ | ------------------------- |
+| `Shift+l`    | Normal | Next buffer               |
+| `Shift+h`    | Normal | Previous buffer           |
+| `<leader>bd` | Normal | Delete buffer, keep split |
+
+## Text Editing
+
+| Key      | Mode   | Description                         |
+| -------- | ------ | ----------------------------------- |
+| `J`      | Visual | Move selected text down             |
+| `K`      | Visual | Move selected text up               |
+| `<`      | Visual | Indent left (stay in visual mode)   |
+| `>`      | Visual | Indent right (stay in visual mode)  |
+| `Ctrl+d` | Normal | Scroll down (centered)              |
+| `Ctrl+u` | Normal | Scroll up (centered)                |
+| `n`      | Normal | Next search result (centered)       |
+| `N`      | Normal | Previous search result (centered)   |
+| `p`      | Visual | Paste without yanking replaced text |
+
+## Insert Mode
+
+| Key      | Mode   | Description       |
+| -------- | ------ | ----------------- |
+| `jk`     | Insert | Exit insert mode  |
+| `kj`     | Insert | Exit insert mode  |
+| `Ctrl+h` | Insert | Move cursor left  |
+| `Ctrl+j` | Insert | Move cursor down  |
+| `Ctrl+k` | Insert | Move cursor up    |
+| `Ctrl+l` | Insert | Move cursor right |
+
+## File Operations
+
+| Key      | Mode                 | Description |
+| -------- | -------------------- | ----------- |
+| `Ctrl+s` | Normal/Insert/Visual | Save file   |
+
+## UI Toggles
+
+| Key          | Mode   | Description                  |
+| ------------ | ------ | ---------------------------- |
+| `<leader>lw` | Normal | Toggle line wrapping         |
+| `<leader>ln` | Normal | Toggle relative line numbers |
+
+## Words (Snacks)
+
+| Key  | Mode   | Description            |
+| ---- | ------ | ---------------------- |
+| `]]` | Normal | Next word reference    |
+| `[[` | Normal | Previous word reference |
+
+## LSP
+
+| Key          | Mode   | Description           |
+| ------------ | ------ | --------------------- |
+| `K`          | Normal | Hover documentation   |
+| `gd`         | Normal | Go to definition      |
+| `gD`         | Normal | Go to declaration     |
+| `gi`         | Normal | Go to implementation  |
+| `go`         | Normal | Go to type definition |
+| `gr`         | Normal | Find references       |
+| `gs`         | Normal | Signature help        |
+| `<leader>cr` | Normal | Rename symbol         |
+| `F4`         | Normal | Code action           |
+
+## Diagnostics
+
+| Key          | Mode   | Description                    |
+| ------------ | ------ | ------------------------------ |
+| `<leader>of` | Normal | Show line diagnostics (float)  |
+| `[d`         | Normal | Go to previous diagnostic      |
+| `]d`         | Normal | Go to next diagnostic          |
+| `<leader>ol` | Normal | Open diagnostics quickfix list |
+
+## Telescope (Search)
+
+| Key                | Mode   | Description                       |
+| ------------------ | ------ | --------------------------------- |
+| `<leader><leader>` | Normal | Find files                        |
+| `<leader>sf`       | Normal | Search files                      |
+| `<leader>sF`       | Normal | Search files (all/hidden/ignored) |
+| `<leader>sg`       | Normal | Search by grep (live)             |
+| `<leader>sw`       | Normal | Search current word               |
+| `<leader>sd`       | Normal | Search diagnostics                |
+| `<leader>sr`       | Normal | Resume last search                |
+| `<leader>s.`       | Normal | Search recent files               |
+| `<leader>ss`       | Normal | Search Telescope pickers          |
+| `<leader>sk`       | Normal | Search keymaps                    |
+| `<leader>sH`       | Normal | Search help tags                  |
+
+## File Explorer (Neo-tree)
+
+| Key          | Mode   | Description                        |
+| ------------ | ------ | ---------------------------------- |
+| `<leader>e`  | Normal | Toggle file explorer               |
+| `<leader>E`  | Normal | Reveal current file in explorer    |
+| `H`          | Neo-tree | Toggle hidden/gitignored files   |
+
+## Git (Gitsigns)
+
+| Key          | Mode            | Description               |
+| ------------ | --------------- | ------------------------- |
+| `]c`         | Normal          | Jump to next hunk         |
+| `[c`         | Normal          | Jump to previous hunk     |
+| `<leader>hs` | Normal/Visual   | Stage hunk                |
+| `<leader>hr` | Normal/Visual   | Reset hunk                |
+| `<leader>hS` | Normal          | Stage buffer              |
+| `<leader>hu` | Normal          | Undo stage hunk           |
+| `<leader>hR` | Normal          | Reset buffer              |
+| `<leader>hp` | Normal          | Preview hunk              |
+| `<leader>hb` | Normal          | Blame line                |
+| `<leader>hd` | Normal          | Diff against index        |
+| `<leader>hD` | Normal          | Diff against last commit  |
+| `<leader>gb` | Normal          | Toggle line blame         |
+| `<leader>gd` | Normal          | Toggle deleted            |
+| `ih`         | Operator/Visual | Select hunk (text object) |
+
+## Git (Telescope)
+
+| Key          | Mode   | Description                               |
+| ------------ | ------ | ----------------------------------------- |
+| `<leader>gs` | Normal | Git status picker (changed files via TUI) |
+
+## Git (LazyGit)
+
+| Key          | Mode   | Description                   |
+| ------------ | ------ | ----------------------------- |
+| `<leader>gg` | Normal | Open LazyGit                  |
+| `<leader>gF` | Normal | Open LazyGit for current file |
+
+## Terminal (ToggleTerm)
+
+| Key             | Mode     | Description                        |
+| --------------- | -------- | ---------------------------------- |
+| `Ctrl+\`        | Normal   | Toggle terminal                    |
+| `Ctrl+h/j/k/l`  | Terminal | Navigate to adjacent window        |
+
+## Debugging (DAP)
+
+| Key          | Mode          | Description               |
+| ------------ | ------------- | ------------------------- |
+| `<leader>db` | Normal        | Toggle breakpoint         |
+| `<leader>dB` | Normal        | Breakpoint with condition |
+| `<leader>dc` | Normal        | Continue                  |
+| `<leader>da` | Normal        | Run with args             |
+| `<leader>dC` | Normal        | Run to cursor             |
+| `<leader>dg` | Normal        | Go to line (no execute)   |
+| `<leader>di` | Normal        | Step into                 |
+| `<leader>do` | Normal        | Step over                 |
+| `<leader>dO` | Normal        | Step out                  |
+| `<leader>dj` | Normal        | Down (stack)              |
+| `<leader>dk` | Normal        | Up (stack)                |
+| `<leader>dl` | Normal        | Run last                  |
+| `<leader>dp` | Normal        | Pause                     |
+| `<leader>dr` | Normal        | Toggle REPL               |
+| `<leader>ds` | Normal        | Session                   |
+| `<leader>dt` | Normal        | Terminate                 |
+| `<leader>dw` | Normal        | Widgets (hover)           |
+| `<leader>du` | Normal        | Toggle DAP UI             |
+| `<leader>de` | Normal/Visual | Eval expression           |
+| `<leader>dR` | Normal        | Reset DAP UI layout       |
+| `<F7>`       | Normal        | Toggle DAP UI             |
+
+## Completion (nvim-cmp)
+
+| Key        | Mode          | Description                        |
+| ---------- | ------------- | ---------------------------------- |
+| `Ctrl+p`   | Insert        | Select previous item               |
+| `Ctrl+n`   | Insert        | Select next item                   |
+| `Ctrl+y`   | Insert        | Confirm completion                 |
+| `Ctrl+e`   | Insert        | Trigger completion menu            |
+| `Ctrl+b`   | Insert        | Scroll docs up                     |
+| `Ctrl+f`   | Insert        | Scroll docs down                   |
+| `Tab`      | Insert/Select | Next item or expand snippet        |
+| `Shift+Tab`| Insert/Select | Previous item or jump back snippet |
+
+## Formatting (Conform)
+
+| Key         | Mode          | Description              |
+| ----------- | ------------- | ------------------------ |
+| `<leader>f` | Normal/Visual | Format file or selection |
+
+## Claude Code (AI)
+
+| Key          | Mode   | Description                          |
+| ------------ | ------ | ------------------------------------ |
+| `<leader>ac` | Normal | Toggle Claude                        |
+| `<leader>af` | Normal | Focus Claude                         |
+| `<leader>ar` | Normal | Resume Claude session                |
+| `<leader>aC` | Normal | Continue Claude session              |
+| `<leader>am` | Normal | Select Claude model                  |
+| `<leader>ab` | Normal | Add current buffer to context        |
+| `<leader>as` | Visual | Send selection to Claude             |
+| `<leader>as` | Normal | Add file (in neo-tree)               |
+| `<leader>aa` | Normal | Accept diff                          |
+| `<leader>ad` | Normal | Deny diff                            |
+
+## Markdown
+
+| Key          | Mode   | Description                    |
+| ------------ | ------ | ------------------------------ |
+| `<leader>mr` | Normal | Toggle in-editor render        |
+| `<leader>mb` | Normal | Toggle browser preview (peek)  |
+
+## Text Objects (nvim-various-textobjs)
+
+> Use with any operator: `d`, `c`, `y`, `v`, etc. Most support `i` (inner) and `a` (outer).
+
+| Key      | Description                                      |
+| -------- | ------------------------------------------------ |
+| `iS`/`aS` | Subword (camelCase, snake_case, kebab-case segment) |
+| `ii`/`ai` | Indentation block                               |
+| `aI`     | Indentation block including surrounding lines    |
+| `R`      | Rest of indentation downwards                    |
+| `ig`/`ag` | Greedy outer indentation (includes blank lines) |
+| `iq`/`aq` | Any quote (`"`, `'`, `` ` ``)                   |
+| `io`/`ao` | Any bracket (`()`, `[]`, `{}`)                  |
+| `iv`/`av` | Value in key-value pair or assignment            |
+| `ik`/`ak` | Key in key-value pair or assignment              |
+| `in`/`an` | Number                                           |
+| `im`/`am` | Chain member (`.foo` or `:foo`)                  |
+| `iF`/`aF` | Filepath                                         |
+| `iD`/`aD` | Double square brackets `[[]]`                    |
+| `i#`/`a#` | Color (HEX, RGB, HSL, ANSI)                     |
+| `i,`/`a,` | Function argument                                |
+| `iz`/`az` | Closed fold                                      |
+| `iN`/`aN` | Notebook cell (`# %%`)                           |
+| `i_`/`a_` | Current line (characterwise)                     |
+| `C`      | To next closing bracket                          |
+| `Q`      | To next quotation mark                           |
+| `L`      | URL (forward-seeking)                            |
+| `r`      | Rest of paragraph                                |
+| `gG`     | Entire buffer                                    |
+| `n`      | Near end of line                                 |
+| `gw`     | All visible lines in window                      |
+| `gW`     | Cursor to last visible line                      |
+| `g;`     | Last changed/yanked/pasted text                  |
+| `!`      | Next diagnostic                                  |
+| `\|`     | Column downwards                                 |
+| `.`      | Emoji or Nerd Font glyph                         |

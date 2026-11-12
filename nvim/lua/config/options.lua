@@ -1,0 +1,164 @@
+-- ============================================================================
+-- Neovim Options Configuration
+-- ============================================================================
+
+local opt = vim.opt
+
+-- Line numbers
+opt.number = true
+opt.relativenumber = true
+
+-- Tabs & indentation
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+opt.autoindent = true
+opt.smartindent = true
+
+-- Line wrapping
+opt.wrap = false
+
+-- Search settings
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+opt.incsearch = true
+
+-- Cursor line
+opt.cursorline = true
+
+-- Appearance
+opt.termguicolors = true
+opt.background = "dark"
+opt.signcolumn = "yes"
+
+-- Backspace
+opt.backspace = "indent,eol,start"
+
+-- Clipboard
+opt.clipboard:append("unnamedplus")
+
+-- Split windows
+opt.splitright = true
+opt.splitbelow = true
+
+-- Consider string-string as whole word
+opt.iskeyword:append("-")
+
+-- Disable swapfile
+opt.swapfile = false
+
+-- Backup
+opt.backup = false
+opt.writebackup = false
+
+-- Encoding
+opt.fileencoding = "utf-8"
+
+-- Prompt to save instead of erroring on :q with unsaved changes
+opt.confirm = true
+
+-- Allow cursor to move freely past end-of-line in visual block mode
+opt.virtualedit = "block"
+
+-- Shorter updatetime
+opt.updatetime = 300
+
+-- Don't show mode since we have statusline
+opt.showmode = false
+
+-- Better completion experience
+opt.completeopt = "menu,menuone,noselect"
+opt.pumheight = 10
+
+-- Minimum number of screen lines to keep above and below the cursor
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+
+-- Better display for messages
+opt.cmdheight = 1
+
+-- Hide * markup for bold and italic (but show code block delimiters)
+opt.conceallevel = 1
+
+-- Global statusline
+opt.laststatus = 3
+
+-- Minimal number of columns to use for the line number
+opt.numberwidth = 4
+
+-- Enable mouse support
+opt.mouse = "a"
+
+-- Time in milliseconds to wait for a mapped sequence to complete (user prefers shorter timeout)
+opt.timeoutlen = 500
+
+-- Enable persistent undo
+opt.undofile = true
+
+-- Better diff options
+opt.diffopt:append("vertical")
+
+-- Wildmenu
+opt.wildmenu = true
+opt.wildmode = "longest:full,full"
+
+-- Don't auto commenting new lines
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "*",
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+	end,
+})
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})
+
+-- Auto resize panes when resizing nvim window
+vim.api.nvim_create_autocmd("VimResized", {
+	pattern = "*",
+	command = "tabdo wincmd =",
+})
+
+-- Show code block delimiters in markdown files
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.opt_local.conceallevel = 0
+	end,
+})
+
+-- Show quotes in JSON files
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "json",
+	callback = function()
+		vim.opt_local.conceallevel = 0
+	end,
+})
+
+-- Disable unused providers to reduce warnings
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+
+-- Clear LSP log on startup if it exceeds 10MB
+local lsp_log = vim.fn.stdpath("state") .. "/lsp.log"
+if vim.fn.getfsize(lsp_log) > 10 * 1024 * 1024 then
+	vim.fn.writefile({}, lsp_log)
+end
+
+-- Thicker window separators
+opt.fillchars = {
+  vert = "█",     -- Thick vertical separator
+  horiz = "█",    -- Thick horizontal separator
+  verthoriz = "█", -- Intersection
+  vertleft = "█",
+  vertright = "█",
+  horizup = "█",
+  horizdown = "█",
+}
