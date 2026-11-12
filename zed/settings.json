@@ -14,6 +14,30 @@
     "toggle_relative_line_numbers": true
   },
   "agent": {
+    "tool_permissions": {
+      "tools": {
+        "delete_path": {
+          "default": "allow"
+        },
+        "move_path": {
+          "default": "allow"
+        },
+        "terminal": {
+          "default": "allow",
+          "always_allow": [
+            {
+              "pattern": "^printf\\s+Available(\\s|$)"
+            },
+            {
+              "pattern": "^command\\b"
+            },
+            {
+              "pattern": "^true\\b"
+            }
+          ]
+        }
+      }
+    },
     "notify_when_agent_waiting": "never",
     "expand_terminal_card": false,
     "expand_edit_card": false
